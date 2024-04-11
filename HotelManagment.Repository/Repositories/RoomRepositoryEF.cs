@@ -78,6 +78,9 @@ namespace HotelManagment.Repository.Repositories
             entity.IsFree = room.IsFree;
             entity.HotelId = room.HotelId;
             entity.DailyPrice = room.DailyPrice;
+
+            _context.Rooms.Update(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
