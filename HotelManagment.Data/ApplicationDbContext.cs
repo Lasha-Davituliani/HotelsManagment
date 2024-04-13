@@ -182,12 +182,167 @@ namespace HotelManagment.Data
                         .HasForeignKey(x => x.HotelId)
                         .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Guest>().HasData(
+               new Guest()
+               {
+                   Id = 1,
+                   FirstName = "Nikoloz",
+                   LastName = "Chkhartishvili",
+                   PersonalNumber = "01024085083",
+                   PhoneNumber = "555337681"
+               },
+               new Guest()
+               {
+                   Id = 2,
+                   FirstName = "Khatia",
+                   LastName = "Burduli",
+                   PersonalNumber = "01024082203",
+                   PhoneNumber = "579057747"
+               },
+               new Guest()
+               {
+                   Id = 3,
+                   FirstName = "Erekle",
+                   LastName = "Davitashvili",
+                   PersonalNumber = "12345678947",
+                   PhoneNumber = "571058998"
+               },
+               new Guest()
+               {
+                   Id = 4,
+                   FirstName = "Dali",
+                   LastName = "Goderdzishvili",
+                   PersonalNumber = "87005633698",
+                   PhoneNumber = "555887469"
+               }
+           );
+
+
+            modelBuilder.Entity<Guest>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Id)
+                       .IsRequired()
+                       .ValueGeneratedOnAdd();
+
+                entity.Property(x => x.FirstName)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                entity.Property(x => x.LastName)
+                      .IsRequired()
+                      .HasMaxLength(50);
+
+                
+                entity.Property(x => x.PersonalNumber)
+                      .IsRequired()
+                      .HasMaxLength(11);
+
+                
+                entity.Property(x => x.PhoneNumber)
+                      .IsRequired()
+                      .HasMaxLength(25)
+                      .HasAnnotation("Phone", true);
+
+                
+            });
+
+            modelBuilder.Entity<Reservation>().HasData(
+               new Reservation()
+               {
+                   Id = 1,
+                   CheckInDate = DateTime.Now,
+                   CheckOutDate = DateTime.Now.AddDays(10)
+               },
+               new Reservation()
+               {
+                   Id = 2,
+                   CheckInDate = DateTime.Now,
+                   CheckOutDate = DateTime.Now.AddMonths(1)
+               },
+               new Reservation()
+               {
+                   Id = 3,
+                   CheckInDate = DateTime.Now,
+                   CheckOutDate = DateTime.Now.AddDays(20)
+               });
+
+
+            modelBuilder.Entity<GuestReservation>().HasData(
+                   new GuestReservation()
+                   {
+                       Id = 1,
+                       GuestId = 1,
+                       ReservationId = 1
+                   },
+                   new GuestReservation()
+                   {
+                       Id = 2,
+                       GuestId = 2,
+                       ReservationId = 1
+                   },
+                   new GuestReservation()
+                   {
+                       Id = 3,
+                       GuestId = 3,
+                       ReservationId = 2
+                   },
+                   new GuestReservation()
+                   {
+                       Id = 4,
+                       GuestId = 4,
+                       ReservationId = 3
+                   }
+               );
+
+
+            modelBuilder.Entity<Reservation>(entity =>
+            {
+                entity.HasKey(r => r.Id);
+                entity.Property(r => r.Id)
+                      .IsRequired()
+                      .ValueGeneratedOnAdd();
+
+                entity.Property(r => r.CheckInDate)
+                      .IsRequired();
+
+                entity.Property(r => r.CheckOutDate)
+                      .IsRequired();
+                                
+               
+            });
+
+            modelBuilder.Entity<GuestReservation>(entity =>
+            {
+                
+                entity.HasKey(gr => gr.Id);
+                entity.Property(gr => gr.Id)
+                      .IsRequired()
+                      .ValueGeneratedOnAdd();
+
+                
+                entity.HasOne(gr => gr.Guest)
+                      .WithMany(g => g.GuestReservations)
+                      .HasForeignKey(gr => gr.GuestId)
+                      .OnDelete(DeleteBehavior.Cascade);
+
+                
+                entity.HasOne(gr => gr.Reservation)
+                      .WithMany(r => r.GuestReservations)
+                      .HasForeignKey(gr => gr.ReservationId)
+                      .OnDelete(DeleteBehavior.Cascade);
+            });
+
+
 
         }
 
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Room> Rooms { get; set; }
+        public DbSet<Guest> Guests { get; set; }
+        public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<GuestReservation> GuestReservations { get; set; }
         public static string ConnectionString { get; } = "Server=DESKTOP-GHNTHT8;Database=DOITHotel_BCTFOEF;Trusted_Connection=True;TrustServerCertificate=True";
 
 
