@@ -1,0 +1,29 @@
+﻿@model Guest
+@{
+    ViewData["Title"] = "ახალი სტუმრის დამატება";
+}
+<form asp-controller="Guests" asp-action="Create" method="post">
+    <div class="mb-3">
+        <label asp-for="FirstName">სახელი</label>
+        <input class="form-control" asp-for="FirstName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="LastName">გვარი</label>
+        <input class="form-control" asp-for="LastName" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="PersonalNumber">პირადი ნომერი</label>
+        <input class="form-control" asp-for="PersonalNumber" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="PhoneNumber">თელეფონის ნომერი</label>
+        <input class="form-control" asp-for="PersonalNumber" />
+    </div>
+    <div class="mb-3">
+        <label asp-for="GuestReservations">სტუმრის ჯავშანი</label>
+        <input class="form-control" asp-for="GuestReservations" />
+    </div>
+    <div class="mb-3">
+        <input type="submit" class="btn btn-success" value="დამატება" />
+    </div>
+</form>

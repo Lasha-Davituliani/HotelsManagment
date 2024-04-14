@@ -1,0 +1,29 @@
+﻿@model List<Reservation>
+
+<div class="row">
+    <a class="btn btn-success w-25 btn btn-primary" asp-controller="Reservations" asp-action="Create">ახალი ჯავშანი</a>
+</div>
+<div class="row">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>შესვლა</th>
+                <th>გასვლა</th>               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Model)
+            {
+                <tr>
+                    <td>@reservation.CheckInDate</td>
+                    <td>@reservation.CheckOutDate</td>
+                    <td>
+                        <a class="btn btn-danger" asp-controller="Hotels" asp-action="Delete" asp-route-id="@reservation.Id">წაშლა</a>
+                        <a class="btn btn-info" asp-controller="Hotels" asp-action="Update" asp-route-id="@reservation.Id">განახლება</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -20,7 +20,7 @@ namespace HotelManagment.Repository.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteGuest(int id)
+        public async Task DeleteReservation(int id)
         {
             if (id <= 0) throw new ArgumentOutOfRangeException("Invalid argument passed");
 
