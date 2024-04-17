@@ -12,44 +12,51 @@ namespace HotelManagment.Repository.Repositories
         {
             _context = context;
         }
-        public async Task AddGuest(Guest guest)
+
+        public async Task Add(Guest guest)
         {
-            if (guest == null) throw new ArgumentNullException("Invalid argument passed");
+            if (guest == null)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
 
             await _context.Guests.AddAsync(guest);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteGuest(int id)
+        public async Task Delete(int id)
         {
-            if (id <= 0) throw new ArgumentOutOfRangeException("Invalid argument passed");
+            if (id <= 0)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
 
             var entity = await _context.Guests.FirstOrDefaultAsync(x => x.Id == id);
-            if (entity == null) throw new NullReferenceException("Entity not found");
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
 
             _context.Guests.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<GuestReservation>> GetGuestReservations()
+        public async Task<List<Guest>> GetAll()
         {
-            throw new NotImplementedException();
+            var entities = await _context.Guests.ToListAsync();
+
+            if (entities == null)
+            {
+                throw new NullReferenceException("Entities not found");
+            }
+
+            return entities;
         }
 
-        public async Task<List<Guest>> GetGuests()
+        public async Task<Guest> GetById(int id)
         {
-            var entity = await _context.Guests                       
-                       .ToListAsync();
-
-            if (entity == null) throw new NullReferenceException("Entities not found");
-
-            return entity;
-        }
-
-        public async Task<Guest> GetSingleGuest(int id)
-        {
-            var entity = await _context.Guests                
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Guests.FirstOrDefaultAsync(x => x.Id == id);
 
             if (entity == null)
             {
@@ -59,7 +66,19 @@ namespace HotelManagment.Repository.Repositories
             return entity;
         }
 
-        public async Task UpdateGuest(Guest guest)
+        public async Task<Guest> GetByPin(string personalNumber)
+        {
+            var entity = await _context.Guests.FirstOrDefaultAsync(x => x.PersonalNumber.ToLower().Trim() == personalNumber.ToLower().Trim());
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
+
+            return entity;
+        }
+
+        public async Task Update(Guest guest)
         {
             if (guest == null || guest.Id <= 0)
             {
@@ -77,11 +96,9 @@ namespace HotelManagment.Repository.Repositories
             entity.LastName = guest.LastName;
             entity.PersonalNumber = guest.PersonalNumber;
             entity.PhoneNumber = guest.PhoneNumber;
-            entity.GuestReservations = guest.GuestReservations;
-            
 
             _context.Guests.Update(entity);
-            await _context.SaveChangesAsync();  
+            await _context.SaveChangesAsync();
         }
     }
 }

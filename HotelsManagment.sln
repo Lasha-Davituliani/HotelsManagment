@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelsManagment.web", "Hote
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManagment.Models", "HotelManagment.Models\HotelManagment.Models.csproj", "{081F37D4-B2F0-4FAA-8CC5-5FDB6A98EAA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagment.Repository", "HotelManagment.Repository\HotelManagment.Repository.csproj", "{EC3B68E7-979C-4A48-B161-96D7CF1CF103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManagment.Repository", "HotelManagment.Repository\HotelManagment.Repository.csproj", "{EC3B68E7-979C-4A48-B161-96D7CF1CF103}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagment.Data", "HotelManagment.Data\HotelManagment.Data.csproj", "{2B15E83E-03B0-414D-BE5A-C37105B02DB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManagment.Data", "HotelManagment.Data\HotelManagment.Data.csproj", "{2B15E83E-03B0-414D-BE5A-C37105B02DB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

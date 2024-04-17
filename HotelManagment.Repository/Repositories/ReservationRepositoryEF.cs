@@ -12,44 +12,59 @@ namespace HotelManagment.Repository.Repositories
         {
             _context = context;
         }
-        public async Task AddReservation(Reservation reservation)
+
+        public async Task Add(Reservation reservation)
         {
-            if (reservation == null) throw new ArgumentNullException("Invalid argument passed");
+            if (reservation is null)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
 
             await _context.Reservations.AddAsync(reservation);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteReservation(int id)
+        public async Task Delete(int id)
         {
-            if (id <= 0) throw new ArgumentOutOfRangeException("Invalid argument passed");
+            if (id <= 0)
+            {
+                throw new ArgumentNullException("Invalid argument passed");
+            }
 
             var entity = await _context.Reservations.FirstOrDefaultAsync(x => x.Id == id);
-            if (entity == null) throw new NullReferenceException("Entity not found");
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
 
             _context.Reservations.Remove(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<GuestReservation>> GetGuestReservations()
+        public async Task<List<Reservation>> GetAll()
         {
-            throw new NotImplementedException();
+            var entites = await _context.Reservations.ToListAsync();
+
+            if (entites == null)
+            {
+                throw new NullReferenceException("Entities not found");
+            }
+
+            return entites;
         }
 
-        public async Task<List<Reservation>> GetReservations()
+
+        /// <summary>
+        /// TODO აკლია ოთახების ლოგიკა
+        /// </summary>
+        /// <param name="checkInDate"></param>
+        /// <param name="checkOutDate"></param>
+        /// <returns></returns>
+        /// <exception cref="NullReferenceException"></exception>
+        public async Task<Reservation> GetByCheckInCheckOutDate(DateTime checkInDate, DateTime checkOutDate)
         {
-            var entity = await _context.Reservations
-                       .ToListAsync();
-
-            if (entity == null) throw new NullReferenceException("Entities not found");
-
-            return entity;
-        }
-
-        public async Task<Reservation> GetSingleReservation(int id)
-        {
-            var entity = await _context.Reservations
-                .FirstOrDefaultAsync(x => x.Id == id);
+            var entity = await _context.Reservations.FirstOrDefaultAsync(x => x.CheckInDate == checkInDate && x.CheckOutDate == checkOutDate);
 
             if (entity == null)
             {
@@ -59,11 +74,23 @@ namespace HotelManagment.Repository.Repositories
             return entity;
         }
 
-        public async Task UpdateReservation(Reservation reservation)
+        public async Task<Reservation> GetById(int id)
+        {
+            var entity = await _context.Reservations.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (entity == null)
+            {
+                throw new NullReferenceException("Entity not found");
+            }
+
+            return entity;
+        }
+
+        public async Task Update(Reservation reservation)
         {
             if (reservation == null || reservation.Id <= 0)
             {
-                throw new ArgumentNullException("Invalid argument passed");
+                throw new ArgumentNullException("Invalid argumetn passed");
             }
 
             var entity = await _context.Reservations.FirstOrDefaultAsync(x => x.Id == reservation.Id);
@@ -73,10 +100,8 @@ namespace HotelManagment.Repository.Repositories
                 throw new NullReferenceException("Entity not found");
             }
 
-            entity.CheckOutDate = reservation.CheckOutDate;
             entity.CheckInDate = reservation.CheckInDate;
-            entity.GuestReservations = reservation.GuestReservations;
-
+            entity.CheckOutDate = reservation.CheckOutDate;
 
             _context.Reservations.Update(entity);
             await _context.SaveChangesAsync();
