@@ -72,5 +72,42 @@ namespace HotelManagment.Web.Controllers
         }
 
         //TODO დამოუკიდებლად დაწერეთ Update ის ლოგიკა გამოიყენეთ GuestWithReservationForUpdatingDto კლასი
+        public async Task<IActionResult> Update(int id)
+        {
+            var guestReservation = await _guestReservationRepository.GetById(id);
+            if (guestReservation == null)
+            {
+                return NotFound();
+            }
+
+            var updateDto = _mapper.Map<GuestWithReservationForUpdatingDto>(guestReservation);
+            return View(updateDto);
+        }
+
+        // Action to handle the form submission for update
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, GuestWithReservationForUpdatingDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var existingGuestReservation = await _guestReservationRepository.GetById(id);
+            if (existingGuestReservation == null)
+            {
+                return NotFound();
+            }
+
+            var updatedGuestReservation = _mapper.Map(model, existingGuestReservation);
+            var updatedGuest = _mapper.Map(model, existingGuestReservation.Guest);
+            var updatedReservation = _mapper.Map(model, existingGuestReservation.Reservation);
+
+            await _guestRepository.Update(updatedGuest);
+            //await _reservationRepository.Update(updatedReservation);
+            //await _guestReservationRepository.Update(updatedGuestReservation);
+
+            return RedirectToAction("Index");
+        }
     }
 }
