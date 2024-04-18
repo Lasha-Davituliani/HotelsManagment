@@ -84,15 +84,11 @@ namespace HotelManagment.Web.Controllers
             return View(updateDto);
         }
 
-        // Action to handle the form submission for update
+        
         [HttpPost]
         public async Task<IActionResult> Update(int id, GuestWithReservationForUpdatingDto model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-
+            
             var existingGuestReservation = await _guestReservationRepository.GetById(id);
             if (existingGuestReservation == null)
             {
@@ -104,8 +100,8 @@ namespace HotelManagment.Web.Controllers
             var updatedReservation = _mapper.Map(model, existingGuestReservation.Reservation);
 
             await _guestRepository.Update(updatedGuest);
-            //await _reservationRepository.Update(updatedReservation);
-            //await _guestReservationRepository.Update(updatedGuestReservation);
+            await _reservationRepository.Update(updatedReservation);
+            await _guestReservationRepository.Update(updatedGuestReservation);
 
             return RedirectToAction("Index");
         }
