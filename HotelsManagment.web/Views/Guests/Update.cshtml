@@ -1,13 +1,14 @@
-﻿@model HotelManagment.Models.DTOs.GuestWithReservationForUpdatingDto
+﻿@model GuestWithReservationForUpdatingDto
 @{
     ViewData["Title"] = "განახლება";
 }
 
 <h2>@ViewData["Title"]</h2>
 
-<form asp-controller="Guests" asp-action="Update" method="post">
+<form asp-controller="Guests" asp-action="UpdatePost" method="post">
     <input type="hidden" asp-for="Id" />
-
+    <input type="hidden" asp-for="GuestId" />
+    <input type="hidden" asp-for="ReservationId" />
     <div class="mb-3">
         <label asp-for="FirstName">სახელი</label>
         <input class="form-control" asp-for="FirstName" />

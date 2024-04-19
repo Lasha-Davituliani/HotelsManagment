@@ -4,7 +4,7 @@ namespace HotelManagment.Models.DTOs
 {
     public class GuestWithReservationForUpdatingDto
     {
-        [Required]
+        [Required]        
         public int Id { get; set; }
 
         [Required]

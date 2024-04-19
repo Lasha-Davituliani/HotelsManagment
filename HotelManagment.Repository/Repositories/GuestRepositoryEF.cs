@@ -82,16 +82,16 @@ namespace HotelManagment.Repository.Repositories
         {
             if (guest == null || guest.Id <= 0)
             {
-                throw new ArgumentNullException("Invalid argument passed");
+                throw new ArgumentNullException(nameof(guest), "Invalid argument passed");
             }
 
             var entity = await _context.Guests.FirstOrDefaultAsync(x => x.Id == guest.Id);
 
             if (entity == null)
             {
-                throw new NullReferenceException("Entity not found");
+                throw new NullReferenceException($"No guest found with ID: {guest.Id}");
             }
-
+            
             entity.FirstName = guest.FirstName;
             entity.LastName = guest.LastName;
             entity.PersonalNumber = guest.PersonalNumber;
